@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auditoria Técnica & Risco de Paragem (45s) | ObeliscoCare · Grande Lisboa</title>
+  <meta name="description" content="Auditoria rápida B2B em 5 passos: calcule o índice de risco elétrico da sua operação, o prejuízo estimado por paragem e o plano de continuidade ObeliscoCare ideal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface-elevated: #202024;
+      --border: #27272a;
+      --input-border: #3f3f46;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --gold: #facc15;
+      --gold-hover: #fde047;
+      --success: #22c55e;
+      --error: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(250, 204, 21, 0.08), transparent 40%),
+        radial-gradient(circle at 85% 100%, rgba(250, 204, 21, 0.05), transparent 45%);
+    }
+
+    .font-display {
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.02em;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(9, 9, 11, 0.9);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: #09090b;
+      display: grid;
+      place-items: center;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .badge-pill {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold);
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      background: rgba(250, 204, 21, 0.08);
+      padding: 5px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    main {
+      flex: 1;
+      max-width: 820px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 20px 56px;
+    }
+
+    .progress-wrap {
+      margin-bottom: 24px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, #eab308, var(--gold));
+      transition: width 0.3s ease;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 20px 16px;
+      }
+    }
+
+    .step-kicker {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 8px;
+    }
+
+    h1, h2 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      line-height: 1.15;
+    }
+
+    .step-title {
+      font-size: clamp(24px, 4vw, 32px);
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .options-grid.cols-1 {
+      grid-template-columns: 1fr;
+    }
+
+    @media (max-width: 640px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px 16px;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: inherit;
+    }
+
+    .opt-btn:hover {
+      border-color: var(--input-border);
+      background: var(--surface-elevated);
+    }
+
+    .opt-btn.selected {
+      border-color: var(--gold);
+      background: rgba(250, 204, 21, 0.09);
+    }
+
+    .opt-title {
+      font-weight: 600;
+      font-size: 15px;
+      display: block;
+    }
+
+    .opt-sub {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 3px;
+    }
+
+    .opt-indicator {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      border-radius: 999px;
+      border: 1.5px solid var(--input-border);
+      margin-top: 2px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #09090b;
+    }
+
+    .opt-btn.checkbox-style .opt-indicator {
+      border-radius: 6px;
+    }
+
+    .opt-btn.selected .opt-indicator {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* Slider */
+    .slider-panel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+
+    .slider-value-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .slider-amount {
+      font-family: 'Oswald', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .slider-preview {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .slider-preview strong {
+      color: var(--error);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--gold);
+      height: 8px;
+      cursor: pointer;
+    }
+
+    .slider-bounds {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .presets-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .preset-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .preset-chip.active, .preset-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(250, 204, 21, 0.08);
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      gap: 12px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s ease, transform 0.12s ease, opacity 0.15s ease;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--input-border);
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #09090b;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-hover);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-whatsapp {
+      background: var(--success);
+      color: #052e16;
+      font-weight: 700;
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 15px;
+    }
+
+    .btn-whatsapp:hover {
+      filter: brightness(1.06);
+    }
+
+    .btn-secondary-cta {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      width: 100%;
+      padding: 13px 20px;
+      font-size: 14px;
+    }
+
+    .btn-secondary-cta:hover {
+      background: rgba(250, 204, 21, 0.1);
+    }
+
+    /* Result dashboard */
+    .hidden {
+      display: none !important;
+    }
+
+    .gauge-header {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 680px) {
+      .gauge-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    .gauge-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 14px 14px;
+      text-align: center;
+    }
+
+    .gauge-svg {
+      width: 190px;
+      height: 112px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .gauge-score {
+      font-family: 'Oswald', sans-serif;
+      font-size: 34px;
+      font-weight: 700;
+      margin-top: -12px;
+    }
+
+    .gauge-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+    }
+
+    .kpis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 640px) {
+      .kpis-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kpi-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .kpi-label {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi-val {
+      font-family: 'Oswald', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .findings-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 22px;
+    }
+
+    .findings-box.healthy {
+      background: rgba(34, 197, 94, 0.07);
+      border-color: rgba(34, 197, 94, 0.28);
+    }
+
+    .findings-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .findings-list {
+      list-style: none;
+      display: grid;
+      gap: 7px;
+      font-size: 13.5px;
+      color: #e4e4e7;
+    }
+
+    .findings-list li::before {
+      content: "• ";
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .billing-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .billing-toggle {
+      display: inline-flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .billing-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .billing-btn.active {
+      background: var(--gold);
+      color: #09090b;
+    }
+
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 680px) {
+      .tiers-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tier-card {
+      text-align: left;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+      position: relative;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .tier-card.selected {
+      border-color: var(--gold);
+      background: rgba(250, 204, 21, 0.08);
+    }
+
+    .tier-rec-tag {
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      background: var(--gold);
+      color: #09090b;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+
+    .tier-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    .tier-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 4px 0;
+    }
+
+    .tier-price span {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .tier-specs {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-top: 6px;
+    }
+
+    .lead-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 16px;
+    }
+
+    @media (max-width: 640px) {
+      .lead-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field label {
+      display: block;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .field input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-size: 13.5px;
+      font-family: inherit;
+    }
+
+    .field input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .cta-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="https://obeliscoradical.pt/" target="_blank" rel="noopener">
+        <div class="brand-mark">OR</div>
+        <div>
+          <div class="brand-title">OBELISCOCARE</div>
+          <div class="brand-sub">Grande Lisboa · Continuidade Técnica</div>
+        </div>
+      </a>
+      <span class="badge-pill">Auditoria Técnica · 45s</span>
+    </div>
+  </header>
+
+  <main>
+    <div id="quizWrap">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span id="stepCounter">Passo 1 de 5</span>
+          <span id="stepPct">20%</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <section class="card" aria-live="polite">
+        <!-- STEP 1 -->
+        <div id="step-1" class="step-pane">
+          <div class="step-kicker">01 · Perfil Operacional</div>
+          <h1 class="step-title">Qual é o setor e criticidade da sua instalação?</h1>
+          <p class="step-desc">Selecione o tipo de espaço na Grande Lisboa para calibrarmos o nível de risco elétrico e eletrónico.</p>
+          <div class="options-grid" data-step="1">
+            <button type="button" class="opt-btn" data-value="Restauração & Hotelaria" data-score="28">
+              <div>
+                <span class="opt-title">Restauração & Hotelaria</span>
+                <span class="opt-sub">Cozinhas, frio industrial, POS e iluminação contínua</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-value="Clínica / Laboratório" data-score="32">
+              <div>
+                <span class="opt-title">Clínica / Laboratório</span>
+                <span class="opt-sub">Equipamento crítico, ITED e salas de atendimento</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-value="Escritório & Serviços" data-score="20">
+              <div>
+                <span class="opt-title">Escritório & Serviços</span>
+                <span class="opt-sub">Bastidores ITED, postos de trabalho e controlo de acessos</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-value="Comércio & Retalho" data-score="24">
+              <div>
+                <span class="opt-title">Comércio & Retalho</span>
+                <span class="opt-sub">Montras, CCTV, intrusão e caixas de pagamento</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-value="Condomínio / Gestão Predial" data-score="22">
+              <div>
+                <span class="opt-title">Condomínio / Gestão Predial</span>
+                <span class="opt-sub">Portões, elevadores, carregadores EV e áreas comuns</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-value="Armazém & Logística" data-score="26">
+              <div>
+                <span class="opt-title">Armazém & Logística</span>
+                <span class="opt-sub">Portões motorizados, iluminação industrial e CCTV perimetral</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div id="step-2" class="step-pane hidden">
+          <div class="step-kicker">02 · Checklist de Sintomas Atuais</div>
+          <h2 class="step-title">Que sinais já observou nos últimos 12 meses?</h2>
+          <p class="step-desc">Pode selecionar vários itens. Estes pontos serão incluídos no seu relatório técnico final.</p>
+          <div class="options-grid cols-1" data-step="2">
+            <button type="button" class="opt-btn checkbox-style" data-symptom="Quadro elétrico com disparos, aquecimento ou sem identificação" data-points="14">
+              <div>
+                <span class="opt-title">Disjuntores a disparar, aquecimento no quadro ou falta de etiquetagem</span>
+                <span class="opt-sub">Indício frequente de sobrecarga ou aperto deficiente nos barramentos</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn checkbox-style" data-symptom="Mais de 12 meses sem revisão preventiva documentada" data-points="12">
+              <div>
+                <span class="opt-title">Mais de 12 meses sem manutenção preventiva documentada</span>
+                <span class="opt-sub">Sem relatório de estado para quadros elétricos e proteção diferencial</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn checkbox-style" data-symptom="Falhas intermitentes em CCTV, intrusão, ITED ou controlo de acessos" data-points="10">
+              <div>
+                <span class="opt-title">Falhas em CCTV, intrusão, rede ITED ou controlo de acessos</span>
+                <span class="opt-sub">Perda de gravação, tomadas de dados instáveis ou portas sem resposta</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn checkbox-style" data-symptom="Iluminação técnica ou de emergência sem testes periódicos" data-points="8">
+              <div>
+                <span class="opt-title">Iluminação técnica ou sinalética de emergência sem testes periódicos</span>
+                <span class="opt-sub">Risco operacional e de não conformidade em auditorias</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn checkbox-style" data-symptom="Ausência de contrato SLA prioritário em caso de avaria urgente" data-points="12">
+              <div>
+                <span class="opt-title">Sem equipa dedicada nem SLA garantido para emergências</span>
+                <span class="opt-sub">Dependência de piquetes avulsos com tempos e custos imprevisíveis</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn checkbox-style" data-symptom="none" data-points="0">
+              <div>
+                <span class="opt-title">Nenhum sintoma crítico — procuro prevenção e previsibilidade</span>
+                <span class="opt-sub">Manter operação auditada antes que surjam avarias</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div id="step-3" class="step-pane hidden">
+          <div class="step-kicker">03 · Tempo Máximo de Resposta (SLA)</div>
+          <h2 class="step-title">Quanto tempo pode aguardar por assistência em falha grave?</h2>
+          <p class="step-desc">A janela máxima tolerável determina diretamente o nível de prioridade contratual necessário.</p>
+          <div class="options-grid cols-1" data-step="3">
+            <button type="button" class="opt-btn" data-sla="48h" data-rec="essencial" data-points="8">
+              <div>
+                <span class="opt-title">Até 48h úteis</span>
+                <span class="opt-sub">Operação tolera janelas programadas sem impacto imediato na receita</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-sla="24h" data-rec="preventivo" data-points="14">
+              <div>
+                <span class="opt-title">Até 24h úteis</span>
+                <span class="opt-sub">Interrupções de 1 dia comprometem encomendas, faturação ou atendimento</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-sla="8h" data-rec="total" data-points="20">
+              <div>
+                <span class="opt-title">Prioridade crítica até 8h úteis</span>
+                <span class="opt-sub">Cada hora parada gera perda imediata de produção, stock ou clientes</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div id="step-4" class="step-pane hidden">
+          <div class="step-kicker">04 · Impacto Financeiro da Paragem</div>
+          <h2 class="step-title">Qual é o prejuízo aproximado por cada hora de operação parada?</h2>
+          <p class="step-desc">Deslize para indicar o valor/hora (inclui faturação perdida, equipa parada e quebras). Base da simulação: paragem média de 4h + deslocação urgente 350 €.</p>
+          <div class="slider-panel">
+            <div class="slider-value-row">
+              <div class="slider-amount" id="hourlyDisplay">360 €/h</div>
+              <div class="slider-preview">Impacto estimado em 1 paragem (4h): <strong id="outagePreview">1.790 €</strong></div>
+            </div>
+            <input type="range" id="hourlySlider" min="80" max="1200" step="20" value="360" aria-label="Prejuízo por hora em euros" />
+            <div class="slider-bounds">
+              <span>80 €/h</span>
+              <span>640 €/h</span>
+              <span>1.200 €/h</span>
+            </div>
+            <div class="presets-row">
+              <button type="button" class="preset-chip" data-preset="160">160 €/h</button>
+              <button type="button" class="preset-chip active" data-preset="360">360 €/h</button>
+              <button type="button" class="preset-chip" data-preset="640">640 €/h</button>
+              <button type="button" class="preset-chip" data-preset="1000">1.000 €/h</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div id="step-5" class="step-pane hidden">
+          <div class="step-kicker">05 · Cobertura Geográfica</div>
+          <h2 class="step-title">Onde fica localizada a sua empresa ou espaço principal?</h2>
+          <p class="step-desc">Todos os planos ObeliscoCare incluem deslocações na Grande Lisboa sem taxas ocultas.</p>
+          <div class="options-grid" data-step="5">
+            <button type="button" class="opt-btn" data-concelho="Lisboa Centro">
+              <div>
+                <span class="opt-title">Lisboa (Centro / Parque das Nações)</span>
+                <span class="opt-sub">Cobertura prioritária · deslocação incluída</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-concelho="Oeiras & Cascais">
+              <div>
+                <span class="opt-title">Oeiras & Cascais</span>
+                <span class="opt-sub">Eixo Taguspark / Lagoas / Linha de Cascais</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-concelho="Sintra & Amadora">
+              <div>
+                <span class="opt-title">Sintra & Amadora</span>
+                <span class="opt-sub">Zonas empresariais, comerciais e condomínios</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-concelho="Loures & Odivelas">
+              <div>
+                <span class="opt-title">Loures & Odivelas</span>
+                <span class="opt-sub">Polos logísticos, armazéns e restauração</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-concelho="Almada / Margem Sul">
+              <div>
+                <span class="opt-title">Almada / Seixal (Margem Sul)</span>
+                <span class="opt-sub">Empresas, clínicas e retalho na AML Sul</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+            <button type="button" class="opt-btn" data-concelho="Outro na Área Metropolitana de Lisboa">
+              <div>
+                <span class="opt-title">Outro Concelho na AML</span>
+                <span class="opt-sub">Mafra, Vila Franca, Montijo, Setúbal</span>
+              </div>
+              <span class="opt-indicator">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="nav-row" id="quizNav">
+          <button type="button" class="btn btn-ghost" id="btnPrev" disabled>← Anterior</button>
+          <button type="button" class="btn btn-primary" id="btnNext" disabled>Continuar →</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- RESULT DASHBOARD -->
+    <section id="resultWrap" class="card hidden" aria-live="polite">
+      <div class="gauge-header">
+        <div class="gauge-box">
+          <svg class="gauge-svg" viewBox="0 0 200 115" aria-hidden="true">
+            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#27272a" stroke-width="14" stroke-linecap="round" />
+            <path id="gaugeArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#facc15" stroke-width="14" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3" style="transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;" />
+          </svg>
+          <div class="gauge-score" id="riskScoreText">0 / 100</div>
+          <div class="gauge-label" id="riskLevelText">Risco Elevado</div>
+        </div>
+
+        <div>
+          <div class="step-kicker">Resultado da Auditoria ObeliscoCare</div>
+          <h2 class="step-title" id="resultHeadline">Relatório de Continuidade Técnica</h2>
+          <p class="step-desc" id="resultSummary" style="margin-bottom: 12px;"></p>
+          <button type="button" class="btn btn-ghost" id="btnRestart" style="padding: 8px 14px; font-size: 12.5px;">↺ Refazer auditoria</button>
+        </div>
+      </div>
+
+      <div class="kpis-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Índice de Risco</div>
+          <div class="kpi-val" id="kpiRisk">—</div>
+          <div class="kpi-sub" id="kpiRiskSub">Criticidade operacional</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Prejuízo Est. de 1 Paragem</div>
+          <div class="kpi-val" style="color: var(--error);" id="kpiLoss">—</div>
+          <div class="kpi-sub" id="kpiLossSub">4h paragem + urgência 350 €</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Custo Diário do Plano</div>
+          <div class="kpi-val" style="color: var(--gold);" id="kpiDaily">—</div>
+          <div class="kpi-sub" id="kpiDailySub">Plano Preventivo (+ IVA)</div>
+        </div>
+      </div>
+
+      <div class="findings-box" id="findingsBox">
+        <div class="findings-title">Pontos de Atenção Detetados</div>
+        <ul class="findings-list" id="findingsList"></ul>
+      </div>
+
+      <div class="billing-bar">
+        <div>
+          <strong style="font-size: 15px;">Plano Recomendado & Alternativas</strong>
+          <div style="font-size: 12.5px; color: var(--text-muted);">Eletricidade, ITED, CCTV, Intrusão e EV · Grande Lisboa</div>
+        </div>
+        <div class="billing-toggle" role="group" aria-label="Modalidade de faturação">
+          <button type="button" class="billing-btn active" data-billing="mensal">Mensal</button>
+          <button type="button" class="billing-btn" data-billing="anual">Anual (-2 meses)</button>
+        </div>
+      </div>
+
+      <div class="tiers-grid" id="tiersGrid"></div>
+
+      <div class="lead-box">
+        <div style="font-weight: 700; font-size: 15px;">Receba este diagnóstico no WhatsApp técnico e agende a inspeção inicial</div>
+        <div style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Opcional: preencha os seus dados para enviar o resumo pronto para a nossa equipa em Lisboa.</div>
+        <div class="lead-grid">
+          <div class="field">
+            <label for="leadName">O seu nome</label>
+            <input type="text" id="leadName" placeholder="Ex.: João Silva" />
+          </div>
+          <div class="field">
+            <label for="leadCompany">Empresa / Espaço</label>
+            <input type="text" id="leadCompany" placeholder="Ex.: Restaurante Maré Viva" />
+          </div>
+          <div class="field">
+            <label for="leadPhone">Telefone</label>
+            <input type="tel" id="leadPhone" placeholder="Ex.: 912 345 678" />
+          </div>
+        </div>
+
+        <div class="cta-stack">
+          <a id="ctaWhatsapp" class="btn btn-whatsapp" href="https://wa.me/351911132401" target="_blank" rel="noopener">
+            Enviar Auditoria e Pedir Proposta via WhatsApp →
+          </a>
+          <a id="ctaCheckout" class="btn btn-secondary-cta" href="https://obeliscoradical.pt/?plano=preventivo&modalidade=mensal#planos" target="_blank" rel="noopener">
+            Ver Detalhes e Subscrever Plano em obeliscoradical.pt →
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Obelisco Radical · ObeliscoCare</span>
+    <a href="https://obeliscoradical.pt/" target="_blank" rel="noopener">obeliscoradical.pt</a>
+    <a href="https://obeliscoradical.pt/connect" target="_blank" rel="noopener">Portal Obelisco Connect</a>
+  </footer>
+
+  <script>
+    (function () {
+      const PLANS = {
+        essencial: {
+          key: 'essencial',
+          name: 'Essencial',
+          monthly: '349 €',
+          annual: '3.490 €',
+          daily: '11,60 €/dia',
+          specs: '3h/mês de bolsa · SLA 48h úteis · 2 visitas preventivas/ano · 5% desc. extra · Semestral'
+        },
+        preventivo: {
+          key: 'preventivo',
+          name: 'Preventivo',
+          monthly: '699 €',
+          annual: '6.990 €',
+          daily: '23,30 €/dia',
+          specs: '6h/mês de bolsa · SLA 24h úteis · 2 visitas preventivas/ano · 10% desc. extra · Trimestral'
+        },
+        total: {
+          key: 'total',
+          name: 'Total',
+          monthly: '1.290 €',
+          annual: '12.900 €',
+          daily: '43,00 €/dia',
+          specs: '12h/mês de bolsa · SLA 8h úteis · 8 visitas preventivas/ano · 15% desc. extra · Mensal'
+        }
+      };
+
+      const state = {
+        step: 1,
+        sector: '',
+        sectorScore: 0,
+        symptoms: [],
+        symptomPoints: 0,
+        sla: '',
+        slaPoints: 0,
+        recommendedKey: 'preventivo',
+        selectedTier: 'preventivo',
+        billing: 'mensal',
+        hourlyCost: 360,
+        concelho: ''
+      };
+
+      const stepCounter = document.getElementById('stepCounter');
+      const stepPct = document.getElementById('stepPct');
+      const progressFill = document.getElementById('progressFill');
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      const quizWrap = document.getElementById('quizWrap');
+      const resultWrap = document.getElementById('resultWrap');
+
+      const hourlySlider = document.getElementById('hourlySlider');
+      const hourlyDisplay = document.getElementById('hourlyDisplay');
+      const outagePreview = document.getElementById('outagePreview');
+      const presetChips = document.querySelectorAll('.preset-chip');
+
+      const leadName = document.getElementById('leadName');
+      const leadCompany = document.getElementById('leadCompany');
+      const leadPhone = document.getElementById('leadPhone');
+      const ctaWhatsapp = document.getElementById('ctaWhatsapp');
+      const ctaCheckout = document.getElementById('ctaCheckout');
+
+      function formatEur(val) {
+        return val.toLocaleString('pt-PT') + ' €';
+      }
+
+      function computeOutageLoss() {
+        return (state.hourlyCost * 4) + 350;
+      }
+
+      function computeRiskScore() {
+        const hourlyPts = Math.min(24, Math.round(state.hourlyCost / 50));
+        const raw = state.sectorScore + Math.min(34, state.symptomPoints) + state.slaPoints + hourlyPts;
+        return Math.max(18, Math.min(96, raw));
+      }
+
+      function getRecommendedTierKey(score) {
+        if (state.recommendedKey === 'total' || score >= 74 || state.hourlyCost >= 700) return 'total';
+        if (state.recommendedKey === 'essencial' && score < 52 && state.hourlyCost < 260) return 'essencial';
+        return 'preventivo';
+      }
+
+      function canAdvance() {
+        if (state.step === 1) return Boolean(state.sector);
+        if (state.step === 2) return state.symptoms.length > 0;
+        if (state.step === 3) return Boolean(state.sla);
+        if (state.step === 4) return state.hourlyCost >= 80;
+        if (state.step === 5) return Boolean(state.concelho);
+        return false;
+      }
+
+      function renderStep() {
+        for (let i = 1; i <= 5; i++) {
+          document.getElementById('step-' + i).classList.toggle('hidden', i !== state.step);
+        }
+        const pct = state.step * 20;
+        stepCounter.textContent = 'Passo ' + state.step + ' de 5';
+        stepPct.textContent = pct + '%';
+        progressFill.style.width = pct + '%';
+        btnPrev.disabled = state.step === 1;
+        btnNext.textContent = state.step === 5 ? 'Ver Auditoria Completa →' : 'Continuar →';
+        btnNext.disabled = !canAdvance();
+      }
+
+      // Step 1
+      document.querySelectorAll('#step-1 .opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#step-1 .opt-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          state.sector = btn.dataset.value;
+          state.sectorScore = Number(btn.dataset.score);
+          renderStep();
+        });
+      });
+
+      // Step 2 (multi-select)
+      document.querySelectorAll('#step-2 .opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sym = btn.dataset.symptom;
+          if (sym === 'none') {
+            document.querySelectorAll('#step-2 .opt-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            state.symptoms = ['none'];
+            state.symptomPoints = 0;
+          } else {
+            const noneBtn = document.querySelector('#step-2 .opt-btn[data-symptom="none"]');
+            if (noneBtn) noneBtn.classList.remove('selected');
+            btn.classList.toggle('selected');
+            const selected = Array.from(document.querySelectorAll('#step-2 .opt-btn.selected')).filter(b => b.dataset.symptom !== 'none');
+            state.symptoms = selected.map(b => b.dataset.symptom);
+            state.symptomPoints = selected.reduce((acc, b) => acc + Number(b.dataset.points), 0);
+          }
+          renderStep();
+        });
+      });
+
+      // Step 3
+      document.querySelectorAll('#step-3 .opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#step-3 .opt-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          state.sla = btn.dataset.sla;
+          state.slaPoints = Number(btn.dataset.points);
+          state.recommendedKey = btn.dataset.rec;
+          renderStep();
+        });
+      });
+
+      // Step 4 slider & presets
+      function updateSliderUI(val) {
+        state.hourlyCost = Number(val);
+        hourlySlider.value = state.hourlyCost;
+        hourlyDisplay.textContent = formatEur(state.hourlyCost) + '/h';
+        outagePreview.textContent = formatEur(computeOutageLoss());
+        presetChips.forEach(c => c.classList.toggle('active', Number(c.dataset.preset) === state.hourlyCost));
+      }
+
+      hourlySlider.addEventListener('input', e => updateSliderUI(e.target.value));
+      presetChips.forEach(chip => {
+        chip.addEventListener('click', () => updateSliderUI(chip.dataset.preset));
+      });
+      updateSliderUI(360);
+
+      // Step 5
+      document.querySelectorAll('#step-5 .opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#step-5 .opt-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          state.concelho = btn.dataset.concelho;
+          renderStep();
+        });
+      });
+
+      btnPrev.addEventListener('click', () => {
+        if (state.step > 1) {
+          state.step--;
+          renderStep();
+        }
+      });
+
+      btnNext.addEventListener('click', () => {
+        if (!canAdvance()) return;
+        if (state.step < 5) {
+          state.step++;
+          renderStep();
+        } else {
+          showResults();
+        }
+      });
+
+      function updateCTAs(score, loss) {
+        const plan = PLANS[state.selectedTier];
+        const priceLabel = state.billing === 'mensal' ? `${plan.monthly}/mês + IVA` : `${plan.annual}/ano + IVA (-2 meses)`;
+        const name = leadName.value.trim();
+        const company = leadCompany.value.trim();
+        const phone = leadPhone.value.trim();
+
+        const lines = [
+          'Olá equipa ObeliscoCare! Concluí a Auditoria Técnica (45s):',
+          company ? `• Empresa/Espaço: ${company}` : null,
+          name ? `• Responsável: ${name}` : null,
+          phone ? `• Telefone: ${phone}` : null,
+          `• Setor: ${state.sector} (${state.concelho})`,
+          `• Índice de Risco: ${score}/100`,
+          `• Prejuízo est. 1 paragem (4h): ${formatEur(loss)}`,
+          `• SLA desejado: até ${state.sla}`,
+          `• Plano selecionado: ${plan.name} — ${priceLabel} (${plan.daily})`,
+          'Gostaria de agendar a avaliação técnica.'
+        ].filter(Boolean).join('\n');
+
+        ctaWhatsapp.href = 'https://wa.me/351911132401?text=' + encodeURIComponent(lines);
+        ctaCheckout.href = `https://obeliscoradical.pt/?plano=${state.selectedTier}&modalidade=${state.billing}#planos`;
+      }
+
+      function renderTiers(recKey, score, loss) {
+        const grid = document.getElementById('tiersGrid');
+        grid.innerHTML = '';
+        Object.values(PLANS).forEach(plan => {
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className = 'tier-card' + (state.selectedTier === plan.key ? ' selected' : '');
+          const price = state.billing === 'mensal' ? plan.monthly : plan.annual;
+          const period = state.billing === 'mensal' ? '/mês + IVA' : '/ano + IVA';
+          card.innerHTML =
+            (plan.key === recKey ? '<span class="tier-rec-tag">Recomendado</span>' : '') +
+            `<div class="tier-name">${plan.name}</div>` +
+            `<div class="tier-price">${price}<span>${period}</span></div>` +
+            `<div style="font-size:12px;color:#fafafa;font-weight:600;">${plan.daily}</div>` +
+            `<div class="tier-specs">${plan.specs}</div>`;
+          card.addEventListener('click', () => {
+            state.selectedTier = plan.key;
+            document.getElementById('kpiDaily').textContent = plan.daily;
+            document.getElementById('kpiDailySub').textContent = `Plano ${plan.name} (+ IVA)`;
+            renderTiers(recKey, score, loss);
+            updateCTAs(score, loss);
+          });
+          grid.appendChild(card);
+        });
+      }
+
+      function showResults() {
+        const score = computeRiskScore();
+        const loss = computeOutageLoss();
+        const recKey = getRecommendedTierKey(score);
+        state.selectedTier = recKey;
+
+        quizWrap.classList.add('hidden');
+        resultWrap.classList.remove('hidden');
+
+        // Gauge animation
+        const arc = document.getElementById('gaugeArc');
+        const arcLen = 251.3;
+        const offset = arcLen - (arcLen * (score / 100));
+        let strokeColor = '#22c55e';
+        let riskLabel = 'Risco Moderado';
+        if (score >= 70) {
+          strokeColor = '#ef4444';
+          riskLabel = 'Risco Crítico';
+        } else if (score >= 45) {
+          strokeColor = '#facc15';
+          riskLabel = 'Risco Elevado';
+        }
+        arc.setAttribute('stroke', strokeColor);
+        requestAnimationFrame(() => {
+          arc.style.strokeDashoffset = offset.toFixed(1);
+        });
+
+        document.getElementById('riskScoreText').textContent = score + ' / 100';
+        const levelEl = document.getElementById('riskLevelText');
+        levelEl.textContent = riskLabel;
+        levelEl.style.color = strokeColor;
+
+        document.getElementById('resultHeadline').textContent = `${state.sector} · ${state.concelho}`;
+        document.getElementById('resultSummary').textContent =
+          `Com impacto de ${formatEur(state.hourlyCost)}/h e necessidade de resposta até ${state.sla}, o plano ${PLANS[recKey].name} protege a sua operação por ${PLANS[recKey].daily} (+ IVA) — uma fração do prejuízo estimado de ${formatEur(loss)} numa única paragem.`;
+
+        document.getElementById('kpiRisk').textContent = score + ' / 100';
+        document.getElementById('kpiRisk').style.color = strokeColor;
+        document.getElementById('kpiRiskSub').textContent = riskLabel;
+        document.getElementById('kpiLoss').textContent = formatEur(loss);
+
+        const activePlan = PLANS[state.selectedTier];
+        document.getElementById('kpiDaily').textContent = activePlan.daily;
+        document.getElementById('kpiDailySub').textContent = `Plano ${activePlan.name} (+ IVA)`;
+
+        // Findings
+        const findingsBox = document.getElementById('findingsBox');
+        const findingsList = document.getElementById('findingsList');
+        findingsList.innerHTML = '';
+        const realSymptoms = state.symptoms.filter(s => s !== 'none');
+        if (realSymptoms.length === 0) {
+          findingsBox.classList.add('healthy');
+          const li = document.createElement('li');
+          li.textContent = 'Sem anomalias críticas reportadas — recomendado regime preventivo programado para manter continuidade e histórico técnico auditável.';
+          findingsList.appendChild(li);
+        } else {
+          findingsBox.classList.remove('healthy');
+          realSymptoms.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            findingsList.appendChild(li);
+          });
+        }
+
+        renderTiers(recKey, score, loss);
+        updateCTAs(score, loss);
+
+        // Billing switcher listeners
+        document.querySelectorAll('.billing-btn').forEach(b => {
+          b.onclick = () => {
+            document.querySelectorAll('.billing-btn').forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            state.billing = b.dataset.billing;
+            renderTiers(recKey, score, loss);
+            updateCTAs(score, loss);
+          };
+        });
+
+        [leadName, leadCompany, leadPhone].forEach(inp => {
+          inp.oninput = () => updateCTAs(score, loss);
+        });
+      }
+
+      document.getElementById('btnRestart').addEventListener('click', () => {
+        resultWrap.classList.add('hidden');
+        quizWrap.classList.remove('hidden');
+        state.step = 1;
+        renderStep();
+      });
+
+      renderStep();
+    })();
+  </script>
+
+  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "e45bddce93f84afe9cfef86e19fc49d9"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
